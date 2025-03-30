@@ -71,15 +71,14 @@ class ProfileImage extends StatefulWidget {
 }
 
 class _ProfileImageState extends State<ProfileImage> {
-  var _isImage = true;
   var _file = File("");
   var btnStyle = ButtonStyle(
-    shape: MaterialStateProperty.all(
+    shape: WidgetStateProperty.all(
       const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(50)),
       ),
     ),
-    textStyle: MaterialStateProperty.all(const TextStyle(fontSize: 18)),
+    textStyle: WidgetStateProperty.all(const TextStyle(fontSize: 18)),
   );
 
   void getImage() async {
@@ -88,7 +87,6 @@ class _ProfileImageState extends State<ProfileImage> {
     final image = await imagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
-      _isImage = true;
       _file = File(image!.path);
     });
   }
@@ -100,7 +98,6 @@ class _ProfileImageState extends State<ProfileImage> {
     );
 
     setState(() {
-      _isImage = false;
       _file = File(result!.paths[0]!);
     });
   }
