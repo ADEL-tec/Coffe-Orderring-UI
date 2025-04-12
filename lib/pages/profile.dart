@@ -48,8 +48,21 @@ class _ProfilePageState extends State<ProfilePage> {
             TextField(
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.apartment, color: Colors.grey),
-                hintText: 'Nom de société',
+                hintText: 'Adresse',
                 filled: true,
+                fillColor: Colors.grey[200],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+            TextField(
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.phone, color: Colors.grey),
+                hintText: 'Numéro de telephone',
+                filled: true,
+
                 fillColor: Colors.grey[200],
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),

@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:coffee_ordering/constents.dart';
 import 'package:coffee_ordering/models/coffee.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +10,22 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   List<bool>? _isSelected;
+
+  late TabController _tabController;
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: categories.length, vsync: this);
     _isSelected = List.generate(categories.length, (_) => false);
     _isSelected![0] = true;
   }
@@ -76,6 +87,21 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 SizedBox(height: 25),
+                SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                  child: CarouselSlider(
+                    options: CarouselOptions(height: 400.0, autoPlay: true),
+                    items: List.generate(
+                      nmbPubImg,
+                      (i) => ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset("$pubImagesPref$i.jpg"),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 25),
                 TextField(
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search, color: Colors.grey),
@@ -88,40 +114,31 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 25),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: ToggleButtons(
-                    isSelected: _isSelected!,
-                    onPressed: (index) {
-                      setState(() {
-                        _isSelected = List.generate(
-                          categories.length,
-                          (i) => i == index ? true : false,
-                        );
-                      });
-                    },
-                    children: List.generate(
-                      categories.length,
-                      (index) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(categories[index]),
-                        ),
-                      ),
-                    ),
-                  ),
+                TabBar(
+                  isScrollable: true,
+                  controller: _tabController,
+                  tabs:
+                      categories.map((label) => Tab(text: label.name)).toList(),
+                  labelColor: Colors.black,
+                  indicatorColor: Colors.brown,
+                  dividerColor: Colors.brown[200],
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 SizedBox(
                   height: 330,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-
-                    scrollDirection: Axis.horizontal,
-                    itemCount: coffeeItems.length,
-                    itemBuilder:
-                        (ctx, index) => ItemCard(coffee: coffeeItems[index]),
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: List.generate(categories.length, (i) {
+                      final coffeeItems = categories[i].coffeList;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: coffeeItems.length,
+                        itemBuilder:
+                            (ctx, index) =>
+                                ItemCard(coffee: coffeeItems[index]),
+                      );
+                    }),
                   ),
                 ),
               ],

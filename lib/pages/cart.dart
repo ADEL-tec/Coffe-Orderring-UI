@@ -65,7 +65,9 @@ class _CartPageState extends State<CartPage> {
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/checkout-success');
+                    },
                     child: Text('Checkout'),
                   ),
                 ),
@@ -85,7 +87,9 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var coffee = coffeeItems.firstWhere((i) => i.id == item.coffeeId);
+    var coffee = categories[0].coffeList.firstWhere(
+      (i) => i.id == item.coffeeId,
+    );
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),

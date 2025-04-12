@@ -1,9 +1,10 @@
-import 'package:coffee_ordering/pages/CoffeeDetails.dart';
+import 'package:coffee_ordering/pages/Coffee_details.dart';
 import 'package:coffee_ordering/pages/cart.dart';
+import 'package:coffee_ordering/pages/checkout_success.dart';
 import 'package:coffee_ordering/pages/home.dart';
 import 'package:coffee_ordering/pages/onboarding.dart';
 import 'package:coffee_ordering/pages/profile.dart';
-import 'package:coffee_ordering/pages/splashScreen.dart';
+import 'package:coffee_ordering/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/coffee-details': (ctx) => CoffeeDetails(),
         '/cart': (ctx) => CartPage(),
         '/profile': (ctx) => ProfilePage(),
+        '/checkout-success': (ctx) => Checkoutsuccess(),
       },
     );
   }
